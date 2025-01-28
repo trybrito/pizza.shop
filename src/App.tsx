@@ -1,13 +1,13 @@
 import "./global.css";
 
-import { Button } from "@/components/ui/button";
+import { BrowserRouter } from "react-router-dom";
+
+import { Router } from "./Router";
 
 export function App() {
   return (
-    <div className="flex h-screen items-center justify-center">
-      <Button variant="outline">Botão</Button>
-      <Button>Botão</Button>
-      <Button>Botão</Button>
-    </div>
+    <BrowserRouter>
+      <Router />
+    </BrowserRouter>
   );
 }
