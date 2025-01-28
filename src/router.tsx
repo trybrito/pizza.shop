@@ -11,6 +11,7 @@ export function Router() {
     <Routes>
       <Route path="/" element={<AppLayout />}>
         <Route path="/" element={<Dashboard />} />
+        {/* <Route path="/orders" element={<Dashboard />} /> */}
       </Route>
 
       <Route path="/" element={<AuthLayout />}>
