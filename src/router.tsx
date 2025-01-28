@@ -3,7 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import { AppLayout } from "./pages/_layouts/app";
 import { AuthLayout } from "./pages/_layouts/auth";
 import { Dashboard } from "./pages/app/dashboard";
-import { SigIn } from "./pages/auth/sign-in";
+import { SignIn } from "./pages/auth/sign-in";
 
 export function Router() {
   return (
@@ -13,7 +13,7 @@ export function Router() {
       </Route>
 
       <Route path="/" element={<AuthLayout />}>
-        <Route path="/sign-in" element={<SigIn />} />
+        <Route path="/sign-in" element={<SignIn />} />
       </Route>
     </Routes>
   );
