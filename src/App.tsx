@@ -1,13 +1,17 @@
 import "./global.css";
 
+import { Helmet, HelmetProvider } from "react-helmet-async";
 import { BrowserRouter } from "react-router-dom";
 
 import { Router } from "./Router";
 
 export function App() {
   return (
-    <BrowserRouter>
-      <Router />
-    </BrowserRouter>
+    <HelmetProvider>
+      <Helmet titleTemplate="%s | pizza.shop" />
+      <BrowserRouter>
+        <Router />
+      </BrowserRouter>
+    </HelmetProvider>
   );
 }
