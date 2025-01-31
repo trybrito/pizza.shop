@@ -1,10 +1,13 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 
-import { getManagedRestaurant } from "@/api/get-managed-restaurant";
+import {
+  GetManagedRestaurant,
+  getManagedRestaurant,
+} from "@/api/get-managed-restaurant";
 import { updateProfile } from "@/api/update-profile";
 
 import { Button } from "./ui/button";
@@ -22,12 +25,14 @@ import { Textarea } from "./ui/textarea";
 
 const storeProfileSchemaInputs = z.object({
   name: z.string().min(1),
-  description: z.string(),
+  description: z.string().nullable(),
 });
 
 type StoreProfileSchemaInputs = z.infer<typeof storeProfileSchemaInputs>;
 
 export function StoreProfileDialog() {
+  const queryClient = useQueryClient();
+
   const { data: managedRestaurant } = useQuery({
     queryKey: ["managed-restaurant"],
     queryFn: getManagedRestaurant,
@@ -46,8 +51,37 @@ export function StoreProfileDialog() {
     },
   });
 
+  function updateManagedRestaurantCache({
+    name,
+    description,
+  }: StoreProfileSchemaInputs) {
+    const cached = queryClient.getQueryData<GetManagedRestaurant>([
+      "managed-restaurant",
+    ]);
+
+    if (cached) {
+      queryClient.setQueryData<GetManagedRestaurant>(["managed-restaurant"], {
+        ...cached,
+        name,
+        description,
+      });
+    }
+
+    return { cached };
+  }
+
   const { mutateAsync: updateProfileFn } = useMutation({
     mutationFn: updateProfile,
+    onMutate: ({ name, description }) => {
+      const { cached } = updateManagedRestaurantCache({ name, description });
+
+      return { previousProfile: cached };
+    },
+    onError(_, __, context) {
+      if (context?.previousProfile) {
+        updateManagedRestaurantCache(context.previousProfile);
+      }
+    },
   });
 
   async function handleUpdateProfile(data: StoreProfileSchemaInputs) {
