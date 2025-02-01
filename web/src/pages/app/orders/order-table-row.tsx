@@ -7,6 +7,7 @@ import { OrderStatus } from "@/components/order-status";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { TableCell, TableRow } from "@/components/ui/table";
+import { formatToBRL } from "@/utils/formatter";
 
 import { OrderDetails } from "./order-details";
 
@@ -51,10 +52,7 @@ export function OrderTableRow({ order }: OrderTableRowProps) {
       </TableCell>
       <TableCell className="font-medium">{order.customerName}</TableCell>
       <TableCell className="font-medium">
-        {(order.totalInCents / 100).toLocaleString("pt-BR", {
-          style: "currency",
-          currency: "BRL",
-        })}
+        {formatToBRL(order.totalInCents / 100)}
       </TableCell>
       <TableCell>
         <Button variant="outline" size="xs">

@@ -15,6 +15,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { formatToBRL } from "@/utils/formatter";
 
 const data = [
   {
@@ -65,12 +66,7 @@ export function RevenueChart() {
               stroke="#888"
               axisLine={false}
               tickLine={false}
-              tickFormatter={(value: number) =>
-                value.toLocaleString("pt-BR", {
-                  style: "currency",
-                  currency: "BRL",
-                })
-              }
+              tickFormatter={(value: number) => formatToBRL(value)}
               width={80}
             />
 
