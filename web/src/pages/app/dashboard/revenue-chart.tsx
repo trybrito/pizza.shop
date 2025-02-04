@@ -13,7 +13,7 @@ import {
 } from "recharts";
 import colors from "tailwindcss/colors";
 
-import { getDailyRevenueInPeriod } from "@/api/get-daily-and-period-revenue";
+import { getDailyRevenueInPeriod } from "@/api/get-daily-revenue-in-period";
 import {
   Card,
   CardContent,
