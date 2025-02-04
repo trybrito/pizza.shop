@@ -15,7 +15,7 @@ import {
 
 import { OrderTableFilters } from "./order-table-filters";
 import { OrderTableRow } from "./order-table-row";
-import { OrderTableRowSkeleton } from "./order-table-row-eskeleton";
+import { OrderTableRowSkeleton } from "./order-table-row-skeleton";
 
 export function Orders() {
   const [searchParams, setSearchParams] = useSearchParams();
