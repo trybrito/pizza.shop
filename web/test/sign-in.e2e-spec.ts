@@ -14,7 +14,7 @@ test("sign in successfully", async ({ page }) => {
 
   expect(toast).toBeVisible();
 
-  // await page.waitForTimeout(1000);
+  await page.waitForTimeout(1000);
 });
 
 test("sign in with wrong credentials", async ({ page }) => {
@@ -28,7 +28,7 @@ test("sign in with wrong credentials", async ({ page }) => {
   const toast = page.getByText("Erro ao cadastrar restaurante.");
 
   expect(toast).toBeVisible();
-  // await page.waitForTimeout(1000);
+  await page.waitForTimeout(1000);
 });
 
 test("navigate to sign up page", async ({ page }) => {
@@ -37,5 +37,5 @@ test("navigate to sign up page", async ({ page }) => {
   await page.getByRole("link", { name: "Novo estabelecimento" }).click();
 
   expect(page.url()).toContain("/sign-up");
-  // await page.waitForTimeout(1000);
+  await page.waitForTimeout(1000);
 });
