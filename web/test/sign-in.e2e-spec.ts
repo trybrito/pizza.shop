@@ -25,7 +25,7 @@ test("sign in with wrong credentials", async ({ page }) => {
     .fill("wrong@example.com");
   await page.getByRole("button", { name: "Acessar painel" }).click();
 
-  const toast = page.getByText("Erro ao cadastrar restaurante.");
+  const toast = page.getByText("Credenciais inválidas");
 
   expect(toast).toBeVisible();
   await page.waitForTimeout(1000);
