@@ -46,7 +46,7 @@ export const getOrdersMock = http.get<never, never, GetOrdersResponse>(
 
     if (customerName) {
       filteredOrders = filteredOrders.filter((order) =>
-        order.orderId.includes(customerName),
+        order.customerName.includes(customerName),
       );
     }
 
