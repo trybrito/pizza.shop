@@ -3,13 +3,12 @@ import { expect, test } from "@playwright/test";
 test("list paginated orders", async ({ page }) => {
   await page.goto("/orders", { waitUntil: "networkidle" });
 
-  expect(
+  await expect(
     page.getByRole("cell", { name: "customer-1", exact: true }),
   ).toBeVisible();
-  expect(
+  await expect(
     page.getByRole("cell", { name: "customer-10", exact: true }),
   ).toBeVisible();
-  await page.waitForTimeout(1000);
 });
 
 test("if previous and first page buttons are disabled for first page", async ({
@@ -17,14 +16,12 @@ test("if previous and first page buttons are disabled for first page", async ({
 }) => {
   await page.goto("/orders", { waitUntil: "networkidle" });
 
-  expect(
+  await expect(
     page.getByRole("cell", { name: "customer-1", exact: true }),
   ).toBeVisible();
-  expect(
+  await expect(
     page.getByRole("cell", { name: "customer-10", exact: true }),
   ).toBeVisible();
-
-  await page.waitForTimeout(1000);
 });
 
 test("navigate to next page", async ({ page }) => {
@@ -32,14 +29,12 @@ test("navigate to next page", async ({ page }) => {
 
   await page.getByRole("button", { name: "Próxima página" }).click();
 
-  expect(
+  await expect(
     page.getByRole("cell", { name: "customer-11", exact: true }),
   ).toBeVisible();
-  expect(
+  await expect(
     page.getByRole("cell", { name: "customer-20", exact: true }),
   ).toBeVisible();
-
-  await page.waitForTimeout(1000);
 });
 
 test("navigate to last page", async ({ page }) => {
@@ -47,14 +42,12 @@ test("navigate to last page", async ({ page }) => {
 
   await page.getByRole("button", { name: "Última página" }).click();
 
-  expect(
+  await expect(
     page.getByRole("cell", { name: "customer-51", exact: true }),
   ).toBeVisible();
-  expect(
+  await expect(
     page.getByRole("cell", { name: "customer-60", exact: true }),
   ).toBeVisible();
-
-  await page.waitForTimeout(1000);
 });
 
 test("navigate to previous page", async ({ page }) => {
@@ -62,14 +55,12 @@ test("navigate to previous page", async ({ page }) => {
 
   await page.getByRole("button", { name: "Página Anterior" }).click();
 
-  expect(
+  await expect(
     page.getByRole("cell", { name: "customer-1", exact: true }),
   ).toBeVisible();
-  expect(
+  await expect(
     page.getByRole("cell", { name: "customer-10", exact: true }),
   ).toBeVisible();
-
-  await page.waitForTimeout(1000);
 });
 
 test("navigate to first page", async ({ page }) => {
@@ -77,14 +68,12 @@ test("navigate to first page", async ({ page }) => {
 
   await page.getByRole("button", { name: "Primeira página" }).click();
 
-  expect(
+  await expect(
     page.getByRole("cell", { name: "customer-1", exact: true }),
   ).toBeVisible();
-  expect(
+  await expect(
     page.getByRole("cell", { name: "customer-10", exact: true }),
   ).toBeVisible();
-
-  await page.waitForTimeout(1000);
 });
 
 test("if next and last page buttons are disabled for last page", async ({
@@ -92,10 +81,12 @@ test("if next and last page buttons are disabled for last page", async ({
 }) => {
   await page.goto("/orders?page=6", { waitUntil: "networkidle" });
 
-  expect(page.getByRole("button", { name: "Próxima página" })).toBeDisabled();
-  expect(page.getByRole("button", { name: "Última página" })).toBeDisabled();
-
-  await page.waitForTimeout(1000);
+  await expect(
+    page.getByRole("button", { name: "Próxima página" }),
+  ).toBeDisabled();
+  await expect(
+    page.getByRole("button", { name: "Última página" }),
+  ).toBeDisabled();
 });
 
 test("filter by orderId", async ({ page }) => {
@@ -104,12 +95,9 @@ test("filter by orderId", async ({ page }) => {
   await page.getByPlaceholder("ID do pedido").fill("order-33");
   await page.getByRole("button", { name: "Filtrar resultados" }).click();
 
-  await page.waitForTimeout(1000);
   expect(
     page.getByRole("cell", { name: "order-33", exact: true }),
   ).toBeVisible();
-
-  await page.waitForTimeout(1000);
 });
 
 test("filter by customerName", async ({ page }) => {
@@ -118,11 +106,9 @@ test("filter by customerName", async ({ page }) => {
   await page.getByPlaceholder("Nome do cliente").fill("customer-33");
   await page.getByRole("button", { name: "Filtrar resultados" }).click();
 
-  await page.waitForTimeout(1000);
-  expect(
+  await expect(
     page.getByRole("cell", { name: "customer-33", exact: true }),
   ).toBeVisible();
-  await page.waitForTimeout(1000);
 });
 
 test("filter by pending status", async ({ page }) => {
@@ -133,10 +119,9 @@ test("filter by pending status", async ({ page }) => {
 
   await page.getByRole("button", { name: "Filtrar resultados" }).click();
 
-  await page.waitForTimeout(1000);
-  const tableRows = await page.getByRole("cell", { name: "Pendente" }).all();
+  const tableRows = page.getByRole("cell", { name: "Pendente" });
 
-  expect(tableRows).toHaveLength(10);
+  await expect(tableRows).toHaveCount(10);
 });
 
 test("filter by canceled status", async ({ page }) => {
@@ -147,11 +132,9 @@ test("filter by canceled status", async ({ page }) => {
 
   await page.getByRole("button", { name: "Filtrar resultados" }).click();
 
-  await page.waitForTimeout(1000);
-  const tableRows = await page.getByRole("cell", { name: "Cancelado" }).all();
+  const tableRows = page.getByRole("cell", { name: "Cancelado" });
 
-  expect(tableRows).toHaveLength(10);
-  await page.waitForTimeout(1000);
+  await expect(tableRows).toHaveCount(10);
 });
 
 test("filter by processing status", async ({ page }) => {
@@ -162,11 +145,9 @@ test("filter by processing status", async ({ page }) => {
 
   await page.getByRole("button", { name: "Filtrar resultados" }).click();
 
-  await page.waitForTimeout(1000);
-  const tableRows = await page.getByRole("cell", { name: "Em preparo" }).all();
+  const tableRows = page.getByRole("cell", { name: "Em preparo" });
 
-  expect(tableRows).toHaveLength(10);
-  await page.waitForTimeout(1000);
+  await expect(tableRows).toHaveCount(10);
 });
 
 test("filter by delivering status", async ({ page }) => {
@@ -177,11 +158,9 @@ test("filter by delivering status", async ({ page }) => {
 
   await page.getByRole("button", { name: "Filtrar resultados" }).click();
 
-  await page.waitForTimeout(1000);
-  const tableRows = await page.getByRole("cell", { name: "Em entrega" }).all();
+  const tableRows = page.getByRole("cell", { name: "Em entrega" });
 
-  expect(tableRows).toHaveLength(10);
-  await page.waitForTimeout(1000);
+  await expect(tableRows).toHaveCount(10);
 });
 
 test("filter by delivered status", async ({ page }) => {
@@ -192,11 +171,9 @@ test("filter by delivered status", async ({ page }) => {
 
   await page.getByRole("button", { name: "Filtrar resultados" }).click();
 
-  await page.waitForTimeout(1000);
-  const tableRows = await page.getByRole("cell", { name: "Entregue" }).all();
+  const tableRows = page.getByRole("cell", { name: "Entregue" });
 
-  expect(tableRows).toHaveLength(10);
-  await page.waitForTimeout(1000);
+  await expect(tableRows).toHaveCount(10);
 });
 
 test("if order action button will be able to set all order statuses", async ({
@@ -204,28 +181,31 @@ test("if order action button will be able to set all order statuses", async ({
 }) => {
   await page.goto("/orders", { waitUntil: "networkidle" });
 
-  expect(page.getByRole("cell", { name: "Pendente" }).first()).toBeVisible();
+  await expect(
+    page.getByRole("cell", { name: "Pendente" }).first(),
+  ).toBeVisible();
   await page.getByRole("button", { name: "Aprovar" }).first().click();
 
-  await page.waitForTimeout(1000);
-  expect(page.getByRole("cell", { name: "Em preparo" }).first()).toBeVisible();
-  expect(
+  await expect(
+    page.getByRole("cell", { name: "Em preparo" }).first(),
+  ).toBeVisible();
+  await expect(
     page.getByRole("button", { name: "Em entrega" }).first(),
   ).toBeVisible();
-  await page.waitForTimeout(1000);
 
   await page.getByRole("button", { name: "Em entrega" }).first().click();
+  await expect(
+    page.getByRole("cell", { name: "Em entrega" }).first(),
+  ).toBeVisible();
 
-  await page.waitForTimeout(1000);
-  expect(page.getByRole("cell", { name: "Em entrega" }).first()).toBeVisible();
-  expect(page.getByRole("button", { name: "Entregue" }).first()).toBeVisible();
-  await page.waitForTimeout(1000);
-
+  await expect(
+    page.getByRole("button", { name: "Entregue" }).first(),
+  ).toBeVisible();
   await page.getByRole("button", { name: "Entregue" }).first().click();
 
-  await page.waitForTimeout(1000);
-  expect(page.getByRole("cell", { name: "Entregue" }).first()).toBeVisible();
-  await page.waitForTimeout(1000);
+  await expect(
+    page.getByRole("cell", { name: "Entregue" }).first(),
+  ).toBeVisible();
 });
 
 test("if order cancel button will be disabled for canceled orders", async ({
@@ -233,11 +213,9 @@ test("if order cancel button will be disabled for canceled orders", async ({
 }) => {
   await page.goto("/orders?status=canceled", { waitUntil: "networkidle" });
 
-  expect(
+  await expect(
     page.getByRole("button", { name: "Cancelar " }).first(),
   ).toBeDisabled();
-
-  await page.waitForTimeout(1000);
 });
 
 test("if order cancel button will be disabled for delivered orders", async ({
@@ -245,9 +223,9 @@ test("if order cancel button will be disabled for delivered orders", async ({
 }) => {
   await page.goto("/orders?status=delivered", { waitUntil: "networkidle" });
 
-  expect(page.getByRole("button", { name: "Cancelar" }).first()).toBeDisabled();
-
-  await page.waitForTimeout(1000);
+  await expect(
+    page.getByRole("button", { name: "Cancelar" }).first(),
+  ).toBeDisabled();
 });
 
 test("cancelling an order", async ({ page }) => {
@@ -255,7 +233,10 @@ test("cancelling an order", async ({ page }) => {
 
   await page.getByRole("button", { name: "Cancelar" }).first().click();
 
-  expect(page.getByRole("cell", { name: "Cancelado" }).first()).toBeVisible();
-  expect(page.getByRole("button", { name: "Cancelar" }).first()).toBeDisabled();
-  await page.waitForTimeout(1000);
+  await expect(
+    page.getByRole("cell", { name: "Cancelado" }).first(),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("button", { name: "Cancelar" }).first(),
+  ).toBeDisabled();
 });

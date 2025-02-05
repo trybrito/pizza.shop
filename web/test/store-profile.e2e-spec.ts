@@ -16,17 +16,15 @@ test("update profile successfully", async ({ page }) => {
 
   const toast = page.getByText("Perfil atualizado com sucesso!");
 
-  expect(toast).toBeVisible();
+  await expect(toast).toBeVisible();
 
   await page.getByRole("button", { name: "Cancelar" }).click();
-  await page.waitForTimeout(1000);
 
-  expect(
+  await expect(
     page.getByRole("button", {
       name: "Rocket Pizza",
     }),
   ).toBeVisible();
-  await page.waitForTimeout(1000);
 });
 
 test("update profile with wrong restaurant name", async ({ page }) => {
@@ -47,15 +45,13 @@ test("update profile with wrong restaurant name", async ({ page }) => {
     "Não foi possível atualizar o perfil, por favor, tente novamente",
   );
 
-  expect(toast).toBeVisible();
+  await expect(toast).toBeVisible();
 
   await page.getByRole("button", { name: "Cancelar" }).click();
-  await page.waitForTimeout(1000);
 
-  expect(
+  await expect(
     page.getByRole("button", {
       name: "Pizza Shop",
     }),
   ).toBeVisible();
-  await page.waitForTimeout(1000);
 });

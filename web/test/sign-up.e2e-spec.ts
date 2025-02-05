@@ -19,9 +19,7 @@ test("sign up successfully", async ({ page }) => {
 
   const toast = page.getByText("Restaurante cadastrado com sucesso!");
 
-  expect(toast).toBeVisible();
-
-  await page.waitForTimeout(1000);
+  await expect(toast).toBeVisible();
 });
 
 test("navigate to sign in page after signing up successfully", async ({
@@ -47,8 +45,6 @@ test("navigate to sign in page after signing up successfully", async ({
 
   expect(page.url()).toContain("/sign-in");
   expect(page.url()).toContain("johndoe@example.com");
-
-  await page.waitForTimeout(1000);
 });
 
 test("sign up with wrong credentials", async ({ page }) => {
@@ -70,9 +66,7 @@ test("sign up with wrong credentials", async ({ page }) => {
 
   const toast = page.getByText("Erro ao cadastrar restaurante.");
 
-  expect(toast).toBeVisible();
-
-  await page.waitForTimeout(1000);
+  await expect(toast).toBeVisible();
 });
 
 test("navigate to sign in page", async ({ page }) => {
@@ -81,5 +75,4 @@ test("navigate to sign in page", async ({ page }) => {
   await page.getByRole("link", { name: "Fazer login" }).click();
 
   expect(page.url()).toContain("/sign-in");
-  await page.waitForTimeout(1000);
 });
