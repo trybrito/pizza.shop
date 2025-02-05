@@ -14,7 +14,7 @@ describe("SignIn", () => {
         return (
           <HelmetProvider>
             <MemoryRouter
-              initialEntries={["/sign-in?email=jhondoe@exemple.com"]}
+              initialEntries={["/sign-in?email=johndoe@example.com"]}
             >
               <QueryClientProvider client={queryClient}>
                 {children}
@@ -26,6 +26,6 @@ describe("SignIn", () => {
     });
 
     const emailInput = wrapper.getByLabelText("Seu e-mail") as HTMLInputElement;
-    expect(emailInput.value).toEqual("jhondoe@exemple.com");
+    expect(emailInput.value).toEqual("johndoe@example.com");
   });
 });
